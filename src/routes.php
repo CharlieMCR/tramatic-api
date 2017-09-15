@@ -1,7 +1,5 @@
 <?php
 
+use Charliemcr\Tramatic\Controllers\ListMatches;
 
-$app->get('/ping', function ($request, $response, $args) {
-    // Render index view
-    return $response->withJson(['ack' => time()]);
-});
+$app->get('/matches', ListMatches::class);

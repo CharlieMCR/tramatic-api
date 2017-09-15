@@ -2,9 +2,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = [];
-$app = new \Slim\App($config);
+$settings = require __DIR__ . '/settings.php';
+$app = new \Slim\App($settings);
 
-require __DIR__ . '/../src/routes.php';
+require __DIR__ . '/dependencies.php';
+
+require __DIR__ . '/routes.php';
 
 $app->run();
