@@ -1,5 +1,5 @@
 <?php
 
-use Charliemcr\Tramatic\Controllers\ListMatches;
+use Charliemcr\Tramatic\Controllers\ListEvents;
 
-$app->get('/matches', ListMatches::class);
+$app->get('/matches', ListEvents::class);
