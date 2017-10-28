@@ -8,7 +8,7 @@ $container['guzzle'] = function () {
 
 $container['logger'] = function ($container) {
     $settings = $container->get('settings')['logger'];
-    $logger = new Monolog\Logger($settings['name']);
+    $logger   = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
 };
@@ -25,9 +25,14 @@ $container['em'] = function ($c) {
     );
 
     $em = \Doctrine\ORM\EntityManager::create($settings['doctrine']['connection'], $config);
-    \Doctrine\DBAL\Types\Type::addType(\Ramsey\Uuid\Doctrine\UuidType::NAME, \Ramsey\Uuid\Doctrine\UuidType::class);
-    $em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping(\Ramsey\Uuid\Doctrine\UuidType::NAME,
-        \Ramsey\Uuid\Doctrine\UuidType::NAME);
+    \Doctrine\DBAL\Types\Type::addType(
+        \Ramsey\Uuid\Doctrine\UuidType::NAME,
+        \Ramsey\Uuid\Doctrine\UuidType::class
+    );
+    $em->getConnection()->getDatabasePlatform()->registerDoctrineTypeMapping(
+        \Ramsey\Uuid\Doctrine\UuidType::NAME,
+        \Ramsey\Uuid\Doctrine\UuidType::NAME
+    );
 
     return $em;
 };
