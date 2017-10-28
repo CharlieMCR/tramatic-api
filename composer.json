@@ -2,7 +2,12 @@
   "require": {
     "slim/slim": "^3.0",
     "guzzlehttp/guzzle": "^6.3",
-    "monolog/monolog": "^1.23"
+    "monolog/monolog": "^1.23",
+    "symfony/console": "^3.3",
+    "doctrine/orm": "^2.5",
+    "ramsey/uuid-doctrine": "^1.4",
+    "jms/serializer-bundle": "^2.2",
+    "vlucas/phpdotenv": "^2.4"
   },
   "autoload": {
     "psr-4": {
