@@ -2,4 +2,4 @@
 
 use Charliemcr\Tramatic\Controllers\ListEvents;
 
-$app->get('/matches', ListEvents::class);
+$app->get('/events', ListEvents::class);
