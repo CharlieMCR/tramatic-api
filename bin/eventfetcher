@@ -1,0 +1,13 @@
+#! /usr/bin/env php
+
+<?php
+
+use Charliemcr\Tramatic\Interfaces\Console\EventFetcher;
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/../src/bootstrap.php';
+
+$fetcher = new Application('event fetcher');
+
+$fetcher->add(new EventFetcher($app->getContainer()));
+$fetcher->run();
