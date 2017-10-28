@@ -15,11 +15,11 @@ class EventRepository extends EntityRepository
         $query = $queryBuilder
             ->select('e')
             ->from(Event::class, 'e')
+            ->where('e.dateTime > :today')
             ->orderBy('e.dateTime', 'ASC')
-            ->setMaxResults(1)
+            ->setParameter('today', new \DateTime('today'))
             ->getQuery();
 
-        $result = $query->getResult();
-        return $result;
+        return $query->getResult();
     }
 }

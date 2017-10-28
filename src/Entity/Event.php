@@ -33,6 +33,7 @@ class Event
 
     /**
      * @ORM\Column(type="string")
+     * @Exclude
      */
     private $timeZone;
 
