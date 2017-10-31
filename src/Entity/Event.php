@@ -3,8 +3,8 @@
 namespace Charliemcr\Tramatic\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Exclude;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Class Event
@@ -16,128 +16,115 @@ class Event
 {
     /**
      * @ORM\Column(type="integer")
+     * @var int
      */
-    public $footballWebpagesId;
+    private $foreignId;
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="uuid")
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
-     * @Exclude
+     * @var UuidInterface
      */
     private $id;
+
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $dateTime;
 
     /**
      * @ORM\Column(type="string")
-     * @Exclude
+     * @var string
      */
     private $timeZone;
 
     /**
      * @ORM\Column(type="string")
+     * @var string
      */
-    private $homeTeamName;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $homeTeamNo;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $awayTeamName;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $awayTeamNo;
+    private $eventName;
 
     /**
      * Event constructor.
-     * @param           $footballWebpagesId
+     * @param int       $foreignId
      * @param \DateTime $dateTime
-     * @param           $homeTeamName
-     * @param           $homeTeamNo
-     * @param           $awayTeamName
-     * @param           $awayTeamNo
+     * @param string    $eventName
      */
     public function __construct(
-        $footballWebpagesId,
+        int $foreignId,
         \DateTime $dateTime,
-        $homeTeamName,
-        $homeTeamNo,
-        $awayTeamName,
-        $awayTeamNo
+        string $eventName
     ) {
-        $this->id                 = Uuid::uuid4();
-        $this->footballWebpagesId = $footballWebpagesId;
-        $this->dateTime           = $dateTime;
-        $this->timeZone           = $dateTime->getTimezone()->getName();
-        $this->homeTeamName       = $homeTeamName;
-        $this->homeTeamNo         = $homeTeamNo;
-        $this->awayTeamName       = $awayTeamName;
-        $this->awayTeamNo         = $awayTeamNo;
+        $this->id = Uuid::uuid4();
+        $this->setForeignId($foreignId)
+             ->setDateTime($dateTime)
+             ->setEventName($eventName);
     }
 
     /**
-     * @return mixed
+     * @return UuidInterface
      */
-    public function getId()
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getFootballWebpagesId()
+    public function getForeignId(): int
     {
-        return $this->footballWebpagesId;
+        return $this->foreignId;
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getHomeTeamName()
-    {
-        return $this->homeTeamName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHomeTeamNo()
-    {
-        return $this->homeTeamNo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAwayTeamName()
-    {
-        return $this->awayTeamName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAwayTeamNo()
-    {
-        return $this->awayTeamNo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDateTime()
+    public function getDateTime(): \DateTime
     {
         $this->dateTime->setTimezone(new \DateTimeZone($this->timeZone));
         return $this->dateTime;
+    }
+
+    /**
+     * @param \DateTime $dateTime
+     * @return Event
+     */
+    public function setDateTime(\DateTime $dateTime): self
+    {
+        $this->dateTime = $dateTime;
+        $this->timeZone = $dateTime->getTimezone()->getName();
+        return $this;
+    }
+
+    /**
+     * @param int $foreignId
+     * @return Event
+     */
+    public function setForeignId(int $foreignId): self
+    {
+        $this->foreignId = $foreignId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEventName(): string
+    {
+        return $this->eventName;
+    }
+
+    /**
+     * @param string $eventName
+     * @return $this
+     */
+    public function setEventName(string $eventName)
+    {
+        $this->eventName = $eventName;
+        return $this;
     }
 }

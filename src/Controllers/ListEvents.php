@@ -4,7 +4,6 @@ namespace Charliemcr\Tramatic\Controllers;
 
 use Charliemcr\Tramatic\Entity\Event;
 use Doctrine\ORM\EntityManager;
-use JMS\Serializer\Serializer;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -21,16 +20,11 @@ class ListEvents
      */
     private $container;
 
-    /**
-     * @var Serializer
-     */
-    private $serializer;
 
     public function __construct(Container $container)
     {
-        $this->container  = $container;
-        $this->em         = $container->get('em');
-        $this->serializer = $container->get('serializer');
+        $this->container = $container;
+        $this->em        = $container->get('em');
     }
 
     /**
@@ -40,8 +34,8 @@ class ListEvents
      */
     public function __invoke(Request $request, Response $response): Response
     {
-        $events   = $this->em->getRepository(Event::class)->findAll();
+        $events   = $this->em->getRepository(Event::class)->findAllAsJson();
         $response = $response->withHeader('Content-Type', 'application/json');
-        return $response->write($this->serializer->serialize($events, 'json'));
+        return $response->withJson($events, 200, 0);
     }
 }

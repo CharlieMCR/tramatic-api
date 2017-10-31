@@ -6,12 +6,13 @@
     "symfony/console": "^3.3",
     "doctrine/orm": "^2.5",
     "ramsey/uuid-doctrine": "^1.4",
-    "jms/serializer-bundle": "^2.2",
     "vlucas/phpdotenv": "^2.4"
   },
   "autoload": {
     "psr-4": {
       "Charliemcr\\Tramatic\\": "src/"
     }
+  },
+  "require-dev": {
   }
 }

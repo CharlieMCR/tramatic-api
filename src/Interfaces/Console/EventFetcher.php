@@ -64,11 +64,14 @@ class EventFetcher extends Command
             $entity = $this->em->getRepository(Event::class)
                                ->setContainer($this->container)
                                ->findOneOrCreate(
-                                   ['footballWebpagesId' => $event['id']],
-                                   $event
+                                   $event['id'],
+                                   new \DateTime(
+                                       $event['date'] . $event['time'],
+                                       new \DateTimeZone($this->container->get('settings')['timeZone'])
+                                   ),
+                                   $event['homeTeamName'] . ' v ' . $event['awayTeamName']
                                );
 
-            $this->em->persist($entity);
             $output->writeln($entity->getId() . ' Event saved.');
         }
         $this->em->flush();
@@ -77,10 +80,7 @@ class EventFetcher extends Command
     private function filterMatches(array $events, int $teamId)
     {
         return array_filter($events, function ($event) use ($teamId) {
-            if ((int)$event['homeTeamNo'] === $teamId) {
-                return $event;
-            }
-            return false;
+            return ((int)$event['homeTeamNo'] === $teamId);
         });
     }
 

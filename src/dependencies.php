@@ -36,7 +36,3 @@ $container['em'] = function ($c) {
 
     return $em;
 };
-
-$container['serializer'] = function () {
-    return \JMS\Serializer\SerializerBuilder::create()->build();
-};
