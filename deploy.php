@@ -2,8 +2,12 @@
 
 namespace Deployer;
 
+use Dotenv\Dotenv;
+
 require 'recipe/common.php';
 
+$dotenv = new Dotenv(__DIR__);
+$dotenv->load();
 // Project name
 set('staging_path', getenv('STAGING_PATH'));
 
