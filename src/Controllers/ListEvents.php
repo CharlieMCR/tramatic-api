@@ -42,7 +42,11 @@ class ListEvents
     public function __invoke(Request $request, Response $response): Response
     {
         $events   = $this->repository->findAllFiltered();
-        $response = $response->withHeader('Content-Type', 'application/json');
+        $response = $response->withHeader('Content-Type', 'application/json')
+                             ->withHeader('Access-Control-Allow-Origin', '*')
+                             ->withHeader('Access-Control-Allow-Headers',
+                                          'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                             ->withHeader('Access-Control-Allow-Methods', 'GET');
         return $response->withJson($events, 200, 0);
     }
 }
