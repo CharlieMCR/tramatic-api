@@ -6,7 +6,8 @@
     "symfony/console": "^3.3",
     "doctrine/orm": "^2.5",
     "ramsey/uuid-doctrine": "^1.4",
-    "vlucas/phpdotenv": "^2.4"
+    "vlucas/phpdotenv": "^2.4",
+    "deployer/deployer": "^6.0"
   },
   "autoload": {
     "psr-4": {
