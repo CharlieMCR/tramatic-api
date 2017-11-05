@@ -1,7 +1,5 @@
 <?php
 
+use Charliemcr\Tramatic\Controllers\ListEvents;
 
-$app->get('/ping', function ($request, $response, $args) {
-    // Render index view
-    return $response->withJson(['ack' => time()]);
-});
+$app->get('/events', ListEvents::class);

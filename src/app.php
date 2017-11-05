@@ -1,10 +1,7 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-$config = [];
-$app = new \Slim\App($config);
-
-require __DIR__ . '/../src/routes.php';
+require __DIR__ . '/routes.php';
 
 $app->run();
