@@ -83,6 +83,7 @@ class EventRepository extends EntityRepository
         $entity = $this->findOneBy(['foreignId' => $foreignId]);
 
         if (null === $entity) {
+            $this->pruneEvents($foreignId, $dateTime, $eventName);
             return $this->createEvent(
                 $foreignId,
                 $dateTime,
@@ -134,13 +135,43 @@ class EventRepository extends EntityRepository
         string $eventName
     ): Event {
         $entity->setForeignId($foreignId)
-               ->setDateTime($dateTime)
-               ->setEventName($eventName);
+            ->setDateTime($dateTime)
+            ->setEventName($eventName);
 
         $this->_em->persist($entity);
         $this->_em->flush();
 
         return $entity;
+    }
+
+    /**
+     * Finds all events with the same eventName the exist before the current event and removes them.
+     *
+     * @param int       $foreignId
+     * @param \DateTime $dateTime
+     * @param string    $eventName
+     */
+    public function pruneEvents(
+        int $foreignId,
+        \DateTime $dateTime,
+        string $eventName
+    ) {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $query        = $queryBuilder
+            ->select('e')
+            ->from(Event::class, 'e')
+            ->where('e.dateTime < :date AND e.eventName = :name AND e.foreignId != :foreignId')
+            ->setParameters([
+                'date' => $dateTime,
+                'name' => $eventName,
+                'foreignId' => $foreignId,
+            ])
+            ->getQuery();
+
+        foreach ($query->iterate() as $duplicate) {
+            $this->_em->remove($duplicate[0]);
+        }
+        $this->_em->flush();
     }
 
     /**
